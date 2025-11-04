@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Task Management System</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="bg-light">
+<!-- 🔹 Header -->
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top" 
+       style="background: linear-gradient(90deg, #6a11cb, #2575fc);">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <i class="bi bi-check2-square me-2 fs-3 text-light animate__animated animate__bounceIn"></i>
+        TaskManager
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-house-door me-1"></i>Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-calendar-check me-1"></i>Calendar</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-info-circle me-1"></i>About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔹 Main Content -->
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>📋 Advanced Task Management System</h2>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">+ Add Task</button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress mb-4">
+      <div id="progressBar" class="progress-bar bg-success" style="width: 0%">0%</div>
+    </div>
+
+    <!-- Kanban Board -->
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-secondary text-white">To Do</div>
+          <div class="card-body task-list" data-status="todo"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-warning text-white">In Progress</div>
+          <div class="card-body task-list" data-status="progress"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">Done</div>
+          <div class="card-body task-list" data-status="done"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar Section -->
+    <div class="card mt-4 shadow-sm">
+      <div class="card-header bg-info text-white">📅 Task Calendar</div>
+      <div class="card-body">
+        <div id="calendar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Footer -->
+  <footer class="text-white text-center py-3 mt-4" 
+          style="background: linear-gradient(90deg, #2575fc, #6a11cb);">
+    <div class="container">
+      <p class="mb-0">&copy; 2025 Advanced Task Management System | Designed by <strong>Sonam</strong></p>
+      <div class="mt-2">
+        <i class="bi bi-facebook mx-2"></i>
+        <i class="bi bi-github mx-2"></i>
+        <i class="bi bi-linkedin mx-2"></i>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 🔹 Modal -->
+  <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="taskForm">
+          <div class="modal-header">
+            <h5 class="modal-title">Add / Edit Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="taskId" />
+            <div class="mb-3">
+              <label class="form-label">Title</label>
+              <input type="text" id="title" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea id="description" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Assignee</label>
+              <input type="text" id="assignee" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Due Date</label>
+              <input type="date" id="dueDate" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select id="status" class="form-select">
+                <option value="todo">To Do</option>
+                <option value="progress">In Progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Links -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
